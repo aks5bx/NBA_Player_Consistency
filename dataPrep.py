@@ -20,6 +20,7 @@ from pyspark.sql.functions import array_contains
 from pyspark.sql.window import Window
 from pyspark.sql.functions import lit
 import sys
+import statistics
 from tqdm import tqdm
 import matplotlib
 import matplotlib.pyplot as plt
@@ -182,6 +183,8 @@ def generatePlayerData(player, returnFormat, verbose):
         print('Total Data Points : ', playerGame.count()) 
         print('Number of Games : ', len(gameID))
 
+    print('DATA GENERATED')
+
     if returnFormat == 'pandas':
         return pdf
               
@@ -204,7 +207,7 @@ def generatePlayerData(player, returnFormat, verbose):
 
 #generatePlayerData('Joel Embiid', 'spark', True)
 # pdf = generatePlayerData('Jeff Teague', 'pandas', False)
-playerGame = generatePlayerData('Reggie Jackson', 'spark', False)
+#playerGame = generatePlayerData('Reggie Jackson', 'spark', False)
 
 ## SPECIFIC GAME R2P RATIO
 #games = list(set(pdf['GAME_ID']))
@@ -251,7 +254,7 @@ from pyspark.ml.regression import LinearRegression
 from pyspark.ml.clustering import KMeans
 from pyspark.ml.evaluation import ClusteringEvaluator
 
-def generatedClusters(playerGame, init, gameNumber):
+def generateClusters(playerGame, init, gameNumber):
 
     gameList = playerGame.select("GAME_ID").distinct().collect()
     gameList = [game[0] for game in gameList]
@@ -278,7 +281,9 @@ def generatedClusters(playerGame, init, gameNumber):
 
     rows = model.transform(VplayerGame).select('prediction').collect()
     
-    print("Silhouette with squared euclidean distance = " + str(silhouette))
+    
+    if init:
+        print("Silhouette with squared euclidean distance = " + str(silhouette))
 
     # coreCenters.append(model.clusterCenters())
 
@@ -338,24 +343,40 @@ def clusterDifference(anchorClusters, newClusters):
     distance6 =  manhattanDistance(anchorCluster1, newClusters3) + manhattanDistance(anchorCluster2, newClusters2) + manhattanDistance(anchorCluster3, newClusters1)
 
     minDist = min([distance1, distance2, distance3, distance4, distance5, distance6])
+
+
     return minDist 
 
 
 def genPlayerVariance(player):
-    playerGame = playerGame = generatePlayerData(player, 'spark', False)
+    playerGame = generatePlayerData(player, 'spark', False)
+
+    anchorClusters = generateClusters(playerGame, True, None)
+
+    totalDiff = []
+    for gameNumber in tqdm(range(31, 61)):
+        gameClusters = generateClusters(playerGame, False, gameNumber)
+        totalDiff.append(clusterDifference(anchorClusters, gameClusters))
+
+    return statistics.mean(totalDiff)
+
+
+results = []
+playerListLoop = ['LeBron James', 'Nikola Jokic', 'Kyrie Irving', 'Kyle Lowry', 'Anthony Davis', 'Damian Lillard', 'Lou Williams', 'Chris Paul', 'John Wall', 'Bradley Beal', 'Jimmy Butler']
+
+for player in tqdm(playerListLoop):
+    results.append(genPlayerVariance(player))
 
 
 
 
+#x = []
+#y = []
+#for core in coreCenters: 
+#    x.append(core[0])
+#    y.append(core[1])
 
-
-x = []
-y = []
-for core in coreCenters: 
-    x.append(core[0])
-    y.append(core[1])
-
-plt.scatter(x, y)
+#plt.scatter(x, y)
 
 #splits = VplayerGame.randomSplit([0.7, 0.3])
 #train_df = splits[0]
