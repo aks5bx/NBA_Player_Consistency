@@ -1,6 +1,7 @@
 # NBA_InGame_Rest
 
 ## Goal: quantify the consistency of a player’s performance in a game or stretch of games
+- Powerpoint presentation in the repo has detailed explanation of the process with diagrams, examples, and step by step walk through
 
 ## Steps Taken 
 - 1: Generate Plot of Performance over course of many games (Baseline Plot)
