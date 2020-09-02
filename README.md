@@ -14,6 +14,7 @@ The idea here is that the more a player deviates from their expected performance
 - BPM Added: Simplified version of Box Plus Minus, defined for each individual player on a per-possession level 
 
 ## Example Baseline Plot
+![alt text](https://github.com/aks5bx/NBA_InGame_Rest/blob/develop/BaselinePlot.png?raw=true)
 
 ## Example Game Plot 
 
