@@ -13,10 +13,11 @@ The idea here is that the more a player deviates from their expected performance
 - Rest to Play Ratio (R2PRatio): Proxy metric to define time elapsed or the flow of the game, personalized to the player of interest 
 - BPM Added: Simplified version of Box Plus Minus, defined for each individual player on a per-possession level 
 
-## Example Baseline Plot
+## Example Baseline Plot (please excuse grainy quality!)
 ![alt text](https://github.com/aks5bx/NBA_InGame_Rest/blob/develop/BaselinePlot.png?raw=true)
 
-## Example Game Plot 
+## Example Game Plot (please excuse grainy quality!)
+![alt text](https://github.com/aks5bx/NBA_InGame_Rest/blob/develop/GamePlot.png?raw=true)
 
 ## Technology Used 
 - Apache Spark, Spark ML Lib 
