@@ -1,4 +1,4 @@
-# NBA_InGame_Rest
+# NBA Player Consistency
 
 ## Summary
 The challenge this project looks to address is quantifying how consistent NBA players are from game to game. Specifically, this project looks to account for in-game variation. Say a player has game (Game 1) where they score 30 points, all 30 of which come in the last quarter. Then let’s say a player has a game (Game 2) where they score 30 points, with 10 coming in quarter 1, 10 coming in quarter 2, 10 coming in quarter 3, and none coming in quarter four. Conventionally, one might say that the player scored 30 points in both games and therefore that player is consistent. However, this project detects the inconsistency and reports it given the two games were very different in nature. This project also uses a variation of Adjusted BPM in order to drive the calculations.  
